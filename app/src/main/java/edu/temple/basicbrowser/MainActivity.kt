@@ -6,6 +6,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.ImageButton
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,10 +24,24 @@ class MainActivity : AppCompatActivity() {
         goButton = findViewById(R.id.goButton)
         webView = findViewById(R.id.webView)
 
+
+        webView.settings.javaScriptEnabled = true
+
+        urlEditText.setImeActionLabel("https://", KeyEvent.KEYCODE_ENTER)
+        goButton.setOnClickListener{
+            webView.loadUrl(urlEditText.toString())
+
+        }
+
+
+
         // Allow your browser to intercept hyperlink clicks
         webView.webViewClient = object: WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+
+                supportActionBar?.title = urlEditText.toString()
+
             }
         }
 
